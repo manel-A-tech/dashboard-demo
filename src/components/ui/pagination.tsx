@@ -1,0 +1,48 @@
+
+type PaginationProps = {
+  currentPage: number
+  totalPages: number
+  onPageChange: (page: number) => void
+}
+
+function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
+
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1)
+
+  return (
+    <div className="flex justify-end items-center gap-2 p-6">
+
+      <button
+        disabled={currentPage === 1}
+        onClick={() => onPageChange(currentPage - 1)}
+        className="px-3 py-1 border rounded disabled:opacity-50 cursor-pointer"
+      >
+        {'<<'}
+      </button>
+
+      {pages.map((page) => (
+        <button
+          key={page}
+          onClick={() => onPageChange(page)}
+          className={`px-3 py-1 border rounded  cursor-pointer ${
+            page === currentPage ? "bg-blue-500 text-white" : ""
+          }`}
+        >
+          {page}
+        </button>
+      ))}
+
+      <button
+        disabled={currentPage === totalPages}
+        onClick={() => onPageChange(currentPage + 1)}
+        className="px-3 py-1 border rounded disabled:opacity-50 cursor-pointer"
+      >
+        {'>>'}
+      </button>
+
+    </div>
+  )
+}
+
+
+export default Pagination
