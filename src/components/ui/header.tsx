@@ -7,7 +7,7 @@ function Header({title , subtitle} : {title: string , subtitle?:string}){
        <p className="pl-4  text-[28px]  text-[#212529]">
         {title}
        </p>
-       <p className="pl-4  text-[16px]  text-[#212529]">
+       <p className="pl-4  text-[15px]  text-[#212529]">
         {subtitle}
        </p>
     </div>
