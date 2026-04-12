@@ -6,7 +6,7 @@ import Pagination from "../ui/pagination.tsx";
 
 function AlertTable(){
     const context = useContext(alertsContext)
-    const alerts = context?.alerts ?? []
+    const alerts = context?.filteredAlerts ?? []
     const ageParseToSeconds = context?.ageParseToSeconds
 
     const [currentPage, setCurrentPage] = useState(1)

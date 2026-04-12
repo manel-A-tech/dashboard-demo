@@ -1,18 +1,24 @@
-
 import { useNavigate, useSearch } from '@tanstack/react-router'
 import { MdDelete } from 'react-icons/md'
 import { type Alert } from '../../context/alertsContext'
 import StatusBadge from '../ui/statusBadge'
 import SeverityBadge from '../ui/severityBadge'
+//import { Route } from '../../routes/alertManagementPage'
 
 function AlertRow({ alert, index }: { alert: Alert, index?: number }) {
-  const navigate = useNavigate()
-  const search = useSearch({ strict: false }) as { selectedAlertId?: string }
+  const navigate = useNavigate({ from: '/alertManagementPage' })
+  
+  // Use the route's search params with proper typing
+  const search = useSearch({ from: '/alertManagementPage' })
+  
   const isSelected = search.selectedAlertId === String(index)
 
   const handleRowClick = () => {
     navigate({
-      search: (prev) => ({ ...prev, selectedAlertId: String(index) }),
+      search: (prev) => ({ 
+        ...prev, 
+        selectedAlertId: String(index) 
+      }),
     })
   }
 

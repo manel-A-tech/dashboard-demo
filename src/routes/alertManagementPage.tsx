@@ -8,10 +8,22 @@ import SeverityBadge from '../components/ui/severityBadge'
 import StatusBadge from '../components/ui/statusBadge'
 import { createFileRoute, useSearch, useNavigate } from '@tanstack/react-router'
 import { useContext } from 'react'
-
+/*
 export const Route = createFileRoute('/alertManagementPage')({
   //the search parameter we expect is selectedAlertId
   validateSearch: (search: Record<string, unknown>) => ({
+    selectedAlertId: search.selectedAlertId as string | undefined,
+  }),
+  component: AlertManagementPage,
+})*/
+
+export type AlertManagementSearch = {
+  selectedAlertId?: string
+}
+
+// In your route file, change the validation to allow undefined
+export const Route = createFileRoute('/alertManagementPage')({
+  validateSearch: (search: Record<string, unknown>): AlertManagementSearch => ({
     selectedAlertId: search.selectedAlertId as string | undefined,
   }),
   component: AlertManagementPage,
@@ -25,18 +37,25 @@ function AlertManagementPage() {
   // selecting an alert 
   const selectedAlert = context?.alerts[Number(selectedAlertId)]
 
-  const breadcrumbItems = selectedAlertId
-    ? [
-        {
-          label: 'Alert Management',
-          onClick: () =>
-            navigate({ search: (prev) => ({ ...prev, selectedAlertId: undefined }) }),
-        },
-        { label: selectedAlert?.alert ?? 'Alert Detail' },
-      ]
-    : []
+
+
+const breadcrumbItems = selectedAlertId
+  ? [
+      {
+        label: 'Alert Management',
+        onClick: () => navigate({ 
+          to: '/alertManagementPage',
+          replace: true 
+        }),
+      },
+      { label: selectedAlert?.alert ?? 'Alert Detail' },
+    ]
+  : []
+  //const search = useSearch({ from: '/alertManagementPage' })
+  // console.log('Search type:', search)
 
   return (
+    
     <div className="bg-[#F4F6F9] min-h-screen">
       <Header
         title="Alert Management"
@@ -90,3 +109,5 @@ function AlertManagementPage() {
     </div>
   )
 }
+
+// At the bottom of alertManagementPage.tsx

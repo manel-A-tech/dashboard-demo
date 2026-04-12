@@ -1,4 +1,4 @@
-import { createContext  } from "react"
+import { createContext , useState } from "react"
 
 export type Status = "New" | "Review" | "Assigned" | "Resolved";
 export type SeverityLevel = "Critical" | "High" | "Low" | 'Medium' 
@@ -18,20 +18,23 @@ export interface Alert {
   action: string | null;
   age: string;
 }
-   const ageParseToSeconds = (age: string) : number =>{
-    const [time , unit] = age.split(' ')
-    if(unit === 'min'){
-       return parseInt(time) * 60 ;
-    } else{
-      return parseInt(time)
-    }
-  }
+
+
+
 
 //context type 
 interface alertsContextType {
   alerts : Alert[];
   ageParseToSeconds: (age: string) => number; 
   statuses: Status[];
+  
+  selectedDate: Date | null;
+  setSelectedDate: (date: Date | null) => void;
+  parseDate :( strDate : string) => Date ;
+  isSameDay : (a : Date , b:Date) => boolean;
+  filteredAlerts: Alert[];
+  selectedStatus: string | null ;
+  setSelectedStatus : (status : Status) => void;
 }
 
 export const alertsContext = createContext<alertsContextType | null>(null);
@@ -170,12 +173,44 @@ const alerts: Alert[] = [
   },
 ]
 
+  const ageParseToSeconds = (age: string) : number =>{
+    const [time , unit] = age.split(' ')
+    if(unit === 'min'){
+       return parseInt(time) * 60 ;
+    } else{
+      return parseInt(time)
+    }
+  }
+
+  const parseDate = (strDate : string) : Date => {
+    const [day , month , year] = strDate.split('.').map(Number)
+    return new Date(year , month - 1 , day)
+  }
+
+  const isSameDay = (a: Date , b: Date ) : boolean => 
+    a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate()
+
+  //const isSameSatus = (a : string , b: string) : boolean =>  a === b
+
+const [selectedStatus , setSelectedStatus]= useState<Status | null>(null)
+
+const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+
+  /*  const filteredAlerts = selectedDate
+    ? alerts.filter(alert => isSameDay(parseDate(alert.date), selectedDate))
+    : alerts */
+
+    const filteredAlerts = alerts 
+      .filter(a => !selectedDate   || isSameDay(parseDate(a.date), selectedDate))
+      .filter( a => ! selectedStatus || a.status === selectedStatus )
+
+
 const statuses: Status[] = ["New", "Review", "Assigned", "Resolved"];
 
 
 
   return(
-    <alertsContext.Provider value = {{alerts , ageParseToSeconds , statuses }}>
+    <alertsContext.Provider value = {{alerts , ageParseToSeconds , statuses, selectedDate , setSelectedDate , parseDate , isSameDay , filteredAlerts , selectedStatus , setSelectedStatus}}>
       {children}
     </alertsContext.Provider>
   )
