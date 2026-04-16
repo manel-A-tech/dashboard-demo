@@ -9,7 +9,7 @@ export const Route = createFileRoute('/dashboad')({
 
 function Dashboard (){
   return(
-    <div  className="bg-[#F4F6F9]"> 
+    <div  className="bg-[#F4F6F9] w-full h-full"> 
       <Header title="Operational Dashboard"  />
       <Grid/>      
     </div>

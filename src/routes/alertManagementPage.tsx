@@ -57,7 +57,7 @@ const breadcrumbItems = selectedAlertId
 
   return (
     
-    <div className="bg-[#F4F6F9] min-h-screen">
+    <div className="bg-[#F4F6F9] w-full h-full ">
       
       <div className=" flex justify-between py-4">
         <Header

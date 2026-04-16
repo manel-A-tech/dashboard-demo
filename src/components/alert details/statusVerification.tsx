@@ -20,7 +20,7 @@ function StatusVerification(){
       </button>
      </div>
 
-<    div className='flex flex-col items-center justify-center gap-2 bg-[#F1F2FC] rounded-xl border-2 border-dashed border-[#C5C7F1] p-6 max-w-xs mx-auto text-center'>
+<    div className='flex flex-col items-center justify-center gap-2 bg-[#F1F2FC] rounded-xl border-2 border-dashed border-[#C5C7F1] p-6    max-w-xs mx-auto text-center'>
         <img src={icon} alt="" className='h-6 w-6' />
         <span className='text-[12px] font-bold tracking-wide uppercase  text-gray-600'>
     N+1 Protocol Active
